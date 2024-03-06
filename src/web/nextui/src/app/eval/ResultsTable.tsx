@@ -628,9 +628,14 @@ export default function ResultsTable({
               header: () => (
                 <TableHeader text={varName} maxLength={maxTextLength} className="font-bold" />
               ),
-              cell: (info: CellContext<EvaluateTableRow, string>) => (
-                <TruncatedText text={info.getValue()} maxLength={maxTextLength} />
-              ),
+              cell: (info: CellContext<EvaluateTableRow, string>) => {
+                if (info.getValue().startsWith('data:image')) {
+                  // eslint-disable-next-line @next/next/no-img-element
+                  return <img src={info.getValue()} alt="" />
+                } else {
+                  return <TruncatedText text={info.getValue()} maxLength={maxTextLength} />
+                }
+              },
               // Minimize the size of Variable columns.
               size: 50,
             },
